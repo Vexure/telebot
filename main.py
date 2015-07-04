@@ -1,4 +1,4 @@
-import StringIO
+﻿import StringIO
 import json
 import logging
 import random
@@ -46,7 +46,7 @@ def getEnabled(chat_id):
 class MeHandler(webapp2.RequestHandler):
     def get(self):
         urlfetch.set_default_fetch_deadline(60)
-        self.response.write('Hello!'+ json.dumps(json.load(urllib2.urlopen(BASE_URL + 'getMe'))))
+        self.response.write(json.dumps(json.load(urllib2.urlopen(BASE_URL + 'getMe'))))
 
 
 class IndexHandler(webapp2.RequestHandler):
@@ -114,29 +114,38 @@ class WebhookHandler(webapp2.RequestHandler):
 
         if text.startswith('/'):
             if text == '/start':
-                reply('istarted!')
+                reply(u'Всегда готова!')
                 setEnabled(chat_id, True)
             elif text == '/stop':
-                reply('istoped!')
+                reply(u'Уйду я от вас.')
                 setEnabled(chat_id, False)
             elif text == '/image':
                 img = Image.new('RGB', (512, 512))
-                base = random.randint(0, 16777216)
+                base = random.randint(0, 13777216)
                 pixels = [base+i*j for i in range(512) for j in range(512)]  # generate sample image
                 img.putdata(pixels)
                 output = StringIO.StringIO()
                 img.save(output, 'JPEG')
                 reply(img=output.getvalue())
-            else:
-                reply('what?')
+           # else:
+               # reply(u'шта?')
 
         # CUSTOMIZE FROM HERE
+		
+        if text == '/q':
+            q_file = open('data/quotes/'+str(chat_id)+'.txt','a+')
+            q_text = text[2:]
+            q_lines = q_file.readlines()
+            if q_text.startswith('add '):
+                q_file.write(q_text)
+                reply(u'Записано! Всего цитат:'+(q_lines.len+1))
+            elif q_text == '':
+                reply(q_lines[random(1,q_lines.len)])
+            else:
+                reply(q_lines[q_text])
+            q_file.close()
 
-        elif 'who are you' in text:
-            reply('telebot, created by yukuku: https://github.com/yukuku/telebot')
-        elif 'what time' in text:
-            reply('look at the top-right corner of your screen!')
-        else:
+        if '@nekodebot' in text:
             if getEnabled(chat_id):
                 resp1 = json.load(urllib2.urlopen('http://www.simsimi.com/requestChat?lc=en&ft=1.0&req=' + urllib.quote_plus(text.encode('utf-8'))))
                 back = resp1.get('res')
