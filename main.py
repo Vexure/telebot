@@ -108,10 +108,10 @@ class WebhookHandler(webapp2.RequestHandler):
 
         if text.startswith('/'):
             if text == '/start':
-                reply('Я запущена!')
+                reply('istarted!')
                 setEnabled(chat_id, True)
             elif text == '/stop':
-                reply('Я остановлена!')
+                reply('istoped!')
                 setEnabled(chat_id, False)
             elif text == '/image':
                 img = Image.new('RGB', (512, 512))
@@ -122,7 +122,7 @@ class WebhookHandler(webapp2.RequestHandler):
                 img.save(output, 'JPEG')
                 reply(img=output.getvalue())
             else:
-                reply('Чего!?')
+                reply('what?')
 
         # CUSTOMIZE FROM HERE
 
