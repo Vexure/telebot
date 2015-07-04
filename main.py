@@ -46,7 +46,7 @@ def getEnabled(chat_id):
 class MeHandler(webapp2.RequestHandler):
     def get(self):
         urlfetch.set_default_fetch_deadline(60)
-        self.response.write(json.dumps(json.load(urllib2.urlopen(BASE_URL + 'getMe'))))
+        self.response.write('Hello!'+ json.dumps(json.load(urllib2.urlopen(BASE_URL + 'getMe'))))
 
 
 class IndexHandler(webapp2.RequestHandler):
@@ -155,5 +155,5 @@ app = webapp2.WSGIApplication([
     ('/updates', GetUpdatesHandler),
     ('/set_webhook', SetWebhookHandler),
     ('/webhook', WebhookHandler),
-     ('/ndcp', IndexHandler),
+    ('/ndcp', IndexHandler),
 ], debug=True)
