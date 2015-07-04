@@ -133,7 +133,7 @@ class WebhookHandler(webapp2.RequestHandler):
         # CUSTOMIZE FROM HERE
 		
         if text == '/q':
-            q_file = open('data/quotes/'+str(chat_id)+'.txt','a+')
+            q_file = open('data/quotes/'+str(chat_id)+'.txt','r')
             q_text = text[2:]
             q_lines = q_file.readlines()
             if q_text.startswith('add '):
